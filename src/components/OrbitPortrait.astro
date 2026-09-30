@@ -1,0 +1,49 @@
+---
+// Headshot framed by two inclined orbits, with a satellite tracing the outer one.
+---
+<div class="orbit" aria-hidden="false">
+  <svg class="rings" viewBox="0 0 600 600" aria-hidden="true">
+    <defs>
+      <path id="orbit-a" d="M 60 300 A 240 96 0 1 1 540 300 A 240 96 0 1 1 60 300" />
+    </defs>
+    <g transform="rotate(-22 300 300)">
+      <use href="#orbit-a" class="ring ring-a" />
+      <circle r="7" class="sat">
+        <animateMotion dur="14s" repeatCount="indefinite" rotate="auto">
+          <mpath href="#orbit-a" />
+        </animateMotion>
+      </circle>
+    </g>
+    <ellipse cx="300" cy="300" rx="286" ry="150" class="ring ring-b" transform="rotate(38 300 300)" />
+    <circle cx="300" cy="300" r="212" class="ring ring-c" />
+    <!-- ground-station ticks -->
+    <g class="ticks">
+      {Array.from({ length: 72 }).map((_, i) => (
+        <line x1="300" y1="72" x2="300" y2={i % 6 === 0 ? 84 : 78} transform={`rotate(${i * 5} 300 300)`} />
+      ))}
+    </g>
+  </svg>
+  <img src="/images/headshot.webp" alt="Portrait of Arel Urbanozo" width="604" height="900" fetchpriority="high" />
+  <span class="label l1">ALT 500 km</span>
+  <span class="label l2">12U · CLASS D</span>
+</div>
+
+<style>
+  .orbit { position: relative; width: min(520px, 100%); aspect-ratio: 1; margin-inline: auto; }
+  .rings { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .ring { fill: none; stroke: var(--line-strong); stroke-width: 1.2; }
+  .ring-a { stroke: var(--accent); stroke-dasharray: 2 7; stroke-width: 1.6; opacity: .9; }
+  .ring-b { stroke-dasharray: 1 5; }
+  .ring-c { stroke: var(--line); }
+  .ticks line { stroke: var(--line-strong); stroke-width: 1; }
+  .sat { fill: var(--accent); filter: drop-shadow(0 0 8px var(--accent)); }
+  img {
+    position: absolute; left: 50%; top: 50%; width: 62%; height: auto; aspect-ratio: 1; object-fit: cover; object-position: 50% 18%;
+    transform: translate(-50%, -50%); border-radius: 50%;
+    border: 1px solid var(--line-strong); box-shadow: var(--shadow), 0 0 0 10px color-mix(in srgb, var(--bg) 70%, transparent);
+  }
+  .label { position: absolute; font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--muted); background: var(--bg); padding: 3px 8px; border: 1px solid var(--line); border-radius: 999px; }
+  .l1 { right: 2%; top: 20%; }
+  .l2 { left: 0; bottom: 18%; }
+  @media (prefers-reduced-motion: reduce) { .sat { display: none; } }
+</style>

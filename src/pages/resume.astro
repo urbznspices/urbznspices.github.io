@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Résumé" description="Résumé and CV of Arel Urbanozo, aerospace engineering, UAH '27.">
+  <section class="wrap page">
+    <div class="top">
+      <div>
+        <p class="eyebrow"><span class="dot"></span>Résumé</p>
+        <h1>The one-page version.</h1>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="/Arel_Urbanozo_Resume.pdf" download>Download résumé (PDF)</a>
+        <a class="btn" href="/Arel_Urbanozo_CV.pdf">Full CV (PDF)</a>
+      </div>
+    </div>
+    <object class="pdf" data="/Arel_Urbanozo_Resume.pdf#view=FitH" type="application/pdf" aria-label="Résumé PDF">
+      <p>Your browser can't display PDFs inline. <a href="/Arel_Urbanozo_Resume.pdf">Open the résumé</a>.</p>
+    </object>
+  </section>
+</Base>
+
+<style>
+  .page { padding-block: clamp(32px, 6vw, 72px) 40px; }
+  .top { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+  h1 { font-size: clamp(40px, 6vw, 72px); font-weight: 400; margin-top: 14px; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .pdf { width: 100%; height: min(1150px, 130vw); border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+</style>

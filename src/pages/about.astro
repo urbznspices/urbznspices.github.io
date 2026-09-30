@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+const timeline = [
+  { when: '2023', what: 'Arrived at UAH from Kamuela, Hawai\'i. Joined the Space Hardware Club and designed my first flight board (Ho\'omau).' },
+  { when: '2024', what: 'Led CanSat Team Shockwave as a freshman: 2nd internationally, top U.S. team. Started at the ETLC keeping 130 classrooms running.' },
+  { when: '2025', what: 'Teaching Assistant for EGR 101: office hours, debugging and grading students\' Python and MATLAB code.' },
+  { when: '2026', what: 'Joined the UAH IDEAS Lab: Lead Systems Engineer & Comms Lead on ChargerSat-2, and curriculum, hardware and test lead for INTREPID.' },
+  { when: '2027', what: 'B.S. Aerospace Engineering (May). Next: spacecraft systems engineering, and eventually a master\'s in engineering management.' },
+];
+---
+<Base title="About" description="About Arel Urbanozo: aerospace engineering senior, spacecraft systems engineer, educator and composer.">
+  <section class="wrap about">
+    <div class="intro">
+      <p class="eyebrow rise"><span class="dot"></span>About</p>
+      <h1 class="rise" style="animation-delay:.06s">From Kamuela<br /><em>to low Earth orbit.</em></h1>
+      <div class="prose rise" style="animation-delay:.12s">
+        <p>
+          I grew up in Kamuela, on the Island of Hawai'i, and came to the University of Alabama in Huntsville, down the road from NASA's Marshall Space Flight Center, to study aerospace engineering.
+        </p>
+        <p>
+          What I've learned since is that I'm most useful <strong>between</strong> disciplines. On ChargerSat-2 I'm the Lead Systems Engineer and Communications Lead. My job is to make sure the power, structures, avionics, payload and radio teams are designing the same spacecraft, and to make sure the link actually closes. On INTREPID I do the same thing for high-school students: I translate real CubeSat engineering into hardware, tools and lessons they can own.
+        </p>
+        <p>
+          Long term, I want to lead small-satellite programs as a technical project manager, and I plan to pursue a master's in engineering management along the way. I like the kind of work where you have to hold the whole system in your head and still sweat the details.
+        </p>
+        <h2>Beyond engineering</h2>
+        <p>
+          I'm a <strong>published classical composer</strong>, and I'm currently writing original stage musicals, doing the book, music and lyrics myself. Writing for an ensemble feels a lot like systems engineering: every part has its own constraints, and the whole thing only works if they resolve together. I also row with the UAH Rowing Club.
+        </p>
+      </div>
+    </div>
+    <aside class="card rise" style="animation-delay:.18s">
+      <img src="/images/headshot.webp" alt="Portrait of Arel Urbanozo" width="604" height="900" />
+      <dl>
+        <div><dt>Based in</dt><dd>Huntsville, AL</dd></div>
+        <div><dt>Studying</dt><dd>B.S. Aerospace Engineering, UAH · GPA 3.85</dd></div>
+        <div><dt>Graduating</dt><dd>May 2027</dd></div>
+        <div><dt>Looking for</dt><dd>Spacecraft systems, mission &amp; technical PM roles</dd></div>
+      </dl>
+      <a class="btn primary" href="mailto:arelurbz@gmail.com">Get in touch</a>
+    </aside>
+  </section>
+
+  <section class="wrap section tl">
+    <p class="eyebrow">Trajectory</p>
+    <ol>
+      {timeline.map((t) => (
+        <li><span class="when">{t.when}</span><p>{t.what}</p></li>
+      ))}
+    </ol>
+  </section>
+</Base>
+
+<style>
+  .about { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 64px; padding-top: clamp(32px, 6vw, 72px); }
+  h1 { font-size: clamp(46px, 7vw, 88px); line-height: .95; margin: 18px 0 32px; font-weight: 400; letter-spacing: -.03em; font-variation-settings: 'opsz' 144; }
+  h1 em { color: var(--accent); }
+  .card { position: sticky; top: 90px; align-self: start; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+  .card img { border-radius: 10px; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; width: 100%; }
+  .card dl { margin: 0; display: grid; gap: 12px; }
+  .card dt { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .card dd { margin: 2px 0 0; font-size: 15px; }
+  .tl ol { list-style: none; margin: 24px 0 0; padding: 0; border-left: 1px dashed var(--line-strong); }
+  .tl li { position: relative; display: grid; grid-template-columns: 90px 1fr; gap: 20px; padding: 0 0 30px 28px; }
+  .tl li::before { content: ''; position: absolute; left: -6px; top: 8px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+  .when { font-family: var(--font-display); font-size: 28px; line-height: 1; color: var(--accent); }
+  .tl p { margin: 0; color: var(--ink-2); max-width: 64ch; }
+  @media (max-width: 900px) {
+    .about { grid-template-columns: 1fr; }
+    .card { position: static; max-width: 420px; }
+    .tl li { grid-template-columns: 1fr; gap: 6px; }
+  }
+</style>

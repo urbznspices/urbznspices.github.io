@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="Illustration: a 12U CubeSat in low Earth orbit with downlink beams to ground stations">
+  <defs>
+    <radialGradient id="sky" cx="70%" cy="20%" r="90%">
+      <stop offset="0" stop-color="#1a2544"/>
+      <stop offset="1" stop-color="#070b16"/>
+    </radialGradient>
+    <radialGradient id="earth" cx="50%" cy="0%" r="100%">
+      <stop offset="0" stop-color="#1c3a63"/>
+      <stop offset=".6" stop-color="#0e1f3a"/>
+      <stop offset="1" stop-color="#0a1428"/>
+    </radialGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2a33a" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#f2a33a" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="beam2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6fd3ff" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#6fd3ff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="earthclip"><circle cx="800" cy="2350" r="1600"/></clipPath>
+    <pattern id="stars" width="160" height="160" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="20" r="1.1" fill="#fff" opacity=".7"/><circle cx="90" cy="60" r=".8" fill="#fff" opacity=".5"/>
+      <circle cx="140" cy="130" r="1.2" fill="#fff" opacity=".6"/><circle cx="50" cy="110" r=".7" fill="#fff" opacity=".4"/>
+      <circle cx="120" cy="16" r=".6" fill="#fff" opacity=".5"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect width="1600" height="760" fill="url(#stars)" opacity=".8"/>
+
+  <!-- Earth limb + graticule -->
+  <circle cx="800" cy="2350" r="1600" fill="url(#earth)"/>
+  <circle cx="800" cy="2350" r="1612" fill="none" stroke="#6fd3ff" stroke-opacity=".35" stroke-width="10"/>
+  <circle cx="800" cy="2350" r="1640" fill="none" stroke="#6fd3ff" stroke-opacity=".08" stroke-width="40"/>
+  <g clip-path="url(#earthclip)" stroke="#6fd3ff" stroke-opacity=".14" fill="none" stroke-width="1.5">
+    <ellipse cx="800" cy="2350" rx="1600" ry="1560"/><ellipse cx="800" cy="2350" rx="1600" ry="1500"/>
+    <ellipse cx="800" cy="2350" rx="1600" ry="1420"/><ellipse cx="800" cy="2350" rx="1600" ry="1320"/>
+    <ellipse cx="800" cy="2350" rx="1200" ry="1600"/><ellipse cx="800" cy="2350" rx="800" ry="1600"/>
+    <ellipse cx="800" cy="2350" rx="400" ry="1600"/><line x1="800" y1="700" x2="800" y2="1000"/>
+  </g>
+
+  <!-- orbit -->
+  <path d="M -100 640 Q 800 180 1700 520" fill="none" stroke="#ebe8df" stroke-opacity=".35" stroke-width="2" stroke-dasharray="3 12"/>
+
+  <!-- beams -->
+  <polygon points="930,372 520,905 600,912" fill="url(#beam)"/>
+  <polygon points="930,372 1150,860 1210,852" fill="url(#beam2)"/>
+
+  <!-- ground stations -->
+  <g fill="#ebe8df">
+    <path d="M552 906 l14 -26 l14 26 z" /><circle cx="566" cy="876" r="10" fill="none" stroke="#f2a33a" stroke-width="3"/>
+    <path d="M1170 854 l14 -26 l14 26 z" /><circle cx="1184" cy="824" r="10" fill="none" stroke="#6fd3ff" stroke-width="3"/>
+    <path d="M300 930 l10 -18 l10 18 z" opacity=".5"/><path d="M1400 880 l10 -18 l10 18 z" opacity=".5"/>
+  </g>
+
+  <!-- 12U CubeSat (isometric) -->
+  <g transform="translate(930 372)">
+    <g transform="rotate(-18)">
+      <!-- solar wings -->
+      <g fill="#1d3f73" stroke="#6fd3ff" stroke-opacity=".6" stroke-width="1.5">
+        <rect x="-330" y="-38" width="230" height="76" rx="3"/>
+        <rect x="100" y="-38" width="230" height="76" rx="3"/>
+      </g>
+      <g stroke="#6fd3ff" stroke-opacity=".35" stroke-width="1">
+        <line x1="-272" y1="-38" x2="-272" y2="38"/><line x1="-215" y1="-38" x2="-215" y2="38"/><line x1="-158" y1="-38" x2="-158" y2="38"/>
+        <line x1="158" y1="-38" x2="158" y2="38"/><line x1="215" y1="-38" x2="215" y2="38"/><line x1="272" y1="-38" x2="272" y2="38"/>
+        <line x1="-330" y1="0" x2="-100" y2="0"/><line x1="100" y1="0" x2="330" y2="0"/>
+      </g>
+      <line x1="-100" y1="0" x2="-78" y2="0" stroke="#ebe8df" stroke-width="3"/>
+      <line x1="78" y1="0" x2="100" y2="0" stroke="#ebe8df" stroke-width="3"/>
+      <!-- bus -->
+      <path d="M-78 -60 L 30 -84 L 78 -54 L -30 -30 Z" fill="#d9d4c7"/>
+      <path d="M-78 -60 L -30 -30 L -30 70 L -78 40 Z" fill="#9aa0ad"/>
+      <path d="M-30 -30 L 78 -54 L 78 46 L -30 70 Z" fill="#c4c0b4"/>
+      <g stroke="#6b7180" stroke-width="1.2" fill="none">
+        <path d="M-30 3 L 78 -21"/><path d="M-30 36 L 78 12"/><path d="M6 -38 L 6 62"/><path d="M42 -46 L 42 54"/>
+      </g>
+      <!-- antenna -->
+      <path d="M 12 70 l 0 26" stroke="#ebe8df" stroke-width="3"/><circle cx="12" cy="100" r="7" fill="#f2a33a"/>
+    </g>
+  </g>
+
+  <!-- labels -->
+  <g font-family="IBM Plex Mono, Consolas, monospace" font-size="22" letter-spacing="3" fill="#ebe8df">
+    <text x="80" y="92" fill="#f2a33a">CHARGERSAT-2 · 12U · CLASS D</text>
+    <text x="80" y="128" opacity=".6">PHASE A · LEO 500 km / CISLUNAR / HELIOCENTRIC TRADE</text>
+    <text x="610" y="760" opacity=".85">X-BAND DOWNLINK · +4.04 dB</text>
+    <text x="1085" y="720" fill="#6fd3ff" opacity=".9">S-BAND TT&amp;C</text>
+  </g>
+</svg>

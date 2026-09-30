@@ -1,0 +1,162 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const all = (await getCollection('projects', ({ data }) => !data.draft || import.meta.env.DEV)).sort((a, b) => a.data.order - b.data.order);
+  return all.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, prev: all[i - 1] ?? null, next: all[i + 1] ?? null },
+  }));
+}
+
+const { project, prev, next } = Astro.props;
+const d = project.data;
+const { Content } = await render(project);
+
+---
+<Base title={d.title} description={d.tagline}>
+  <article>
+    <header class="wrap head">
+      <a class="back eyebrow" href="/#work">← All work</a>
+      <p class="eyebrow org rise">{d.org}</p>
+      <h1 class="rise" style="animation-delay:.06s">{d.title}</h1>
+      <p class="tagline rise" style="animation-delay:.12s">{d.tagline}</p>
+
+      <!-- engineering-drawing title block -->
+      <dl class="titleblock rise" style="animation-delay:.18s">
+        <div><dt>Role</dt><dd>{d.role}</dd></div>
+        <div><dt>Dates</dt><dd>{d.dates}</dd></div>
+        <div><dt>Status</dt><dd>{d.status}</dd></div>
+        <div class="tools"><dt>Tools &amp; methods</dt><dd>{d.tools.map((t) => <span class="tag">{t}</span>)}</dd></div>
+      </dl>
+    </header>
+
+    {d.demo ? (
+      <section class="wrap demo" aria-label="Live demo">
+        <div class="demo-bar">
+          <span class="eyebrow"><span class="dot"></span>Live demo · runs in your browser</span>
+          <a class="btn primary" href={d.demo.src} target="_blank" rel="noopener">{d.demo.label} · full screen ↗</a>
+        </div>
+        <div class="frame" style={`--h:${d.demo.height}px`}>
+          <iframe src={d.demo.src} title={`${d.title} live demo`} loading="lazy"></iframe>
+        </div>
+      </section>
+    ) : (
+      <figure class="wrap cover">
+        <img src={d.cover} alt={d.coverAlt} />
+      </figure>
+    )}
+
+    {d.metrics.length > 0 && (
+      <div class="wrap">
+        <dl class="metrics">
+          {d.metrics.map((m) => (
+            <div><dt>{m.label}</dt><dd>{m.value}</dd></div>
+          ))}
+        </dl>
+      </div>
+    )}
+
+    <div class="wrap body">
+      <div class="prose"><Content /></div>
+      <aside class="side">
+        {d.video && (
+          <figure class="clip">
+            <video src={d.video} autoplay muted loop playsinline preload="metadata" aria-label={`${d.title} screen recording`}></video>
+            <figcaption>Screen recording</figcaption>
+          </figure>
+        )}
+        {d.links.length > 0 && (
+          <div class="links">
+            <p class="eyebrow">Links</p>
+            {d.links.map((l) => <a href={l.href} rel={l.href.startsWith('http') ? 'noopener' : undefined}>{l.label} ↗</a>)}
+          </div>
+        )}
+      </aside>
+    </div>
+
+    {d.gallery.length > 0 && (
+      <section class="wrap gallery" aria-label="Gallery">
+        <p class="eyebrow">Figures</p>
+        <div class="grid">
+          {d.gallery.map((g) => (
+            <figure>
+              <a href={g.src} target="_blank" rel="noopener"><img src={g.src} alt={g.alt} loading="lazy" /></a>
+              {g.caption && <figcaption>{g.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <nav class="wrap pager" aria-label="More projects">
+      {prev ? <a href={`/projects/${prev.id}`}><span class="eyebrow">← Previous</span><strong>{prev.data.title}</strong></a> : <span></span>}
+      {next ? <a class="nx" href={`/projects/${next.id}`}><span class="eyebrow">Next →</span><strong>{next.data.title}</strong></a> : <span></span>}
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .head { padding-top: clamp(32px, 5vw, 64px); }
+  .back { text-decoration: none; display: inline-block; margin-bottom: 28px; }
+  .back:hover { color: var(--accent); }
+  .org { color: var(--accent); }
+  h1 { font-size: clamp(44px, 7vw, 92px); line-height: .95; margin: 14px 0 20px; font-weight: 400; letter-spacing: -.03em; font-variation-settings: 'opsz' 144; max-width: 16ch; }
+  .tagline { font-family: var(--font-display); font-size: clamp(20px, 2.1vw, 26px); line-height: 1.35; max-width: 42ch; color: var(--ink-2); margin: 0 0 36px; }
+
+  .titleblock { display: grid; grid-template-columns: 1.3fr 1fr 1fr; border: 1px solid var(--line-strong); border-radius: 10px; margin: 0; overflow: hidden; }
+  .titleblock > div { padding: 14px 18px; border-right: 1px solid var(--line-strong); }
+  .titleblock > div:nth-child(3) { border-right: 0; }
+  .titleblock .tools { grid-column: 1 / -1; border-top: 1px solid var(--line-strong); border-right: 0; }
+  .titleblock dt { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .titleblock dd { margin: 0; font-size: 15.5px; }
+  .tools dd { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+
+  .cover { margin-top: 40px; margin-bottom: 0; }
+  .cover img { width: 100%; max-height: 640px; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); background: #0d1322; }
+
+  .demo { margin-top: 40px; }
+  .demo-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .frame { border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; background: #fff; box-shadow: var(--shadow); }
+  .frame iframe { width: 100%; height: var(--h); border: 0; display: block; }
+  @media (max-width: 700px) { .frame iframe { height: 620px; } }
+
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0; margin: 28px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .metrics > div { padding: 22px 20px 20px 0; }
+  .metrics dd { margin: 0; font-family: var(--font-display); font-size: clamp(30px, 3.4vw, 42px); line-height: 1; color: var(--accent); font-variation-settings: 'opsz' 144; order: -1; }
+  .metrics > div { display: flex; flex-direction: column; gap: 8px; }
+  .metrics dt { font-size: 14px; color: var(--muted); max-width: 22ch; }
+
+  .body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; padding-block: 24px 40px; }
+  .side { padding-top: 2.4em; display: flex; flex-direction: column; gap: 28px; position: sticky; top: 90px; align-self: start; }
+  .clip { margin: 0; }
+  .clip video { width: 100%; border-radius: 12px; border: 1px solid var(--line); }
+  .clip figcaption { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 8px; letter-spacing: .08em; text-transform: uppercase; }
+  .links { display: flex; flex-direction: column; gap: 10px; }
+  .links a { color: var(--ink); }
+
+  .gallery { padding-bottom: 40px; }
+  .gallery .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 16px; }
+  .gallery figure { margin: 0; }
+  .gallery img { width: 100%; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+  .gallery figcaption { font-size: 14.5px; color: var(--muted); margin-top: 10px; }
+
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding-block: 40px 20px; border-top: 1px solid var(--line); margin-top: 20px; }
+  .pager a { text-decoration: none; display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; border: 1px solid var(--line); border-radius: var(--radius); }
+  .pager a:hover { border-color: var(--accent); }
+  .pager strong { font-family: var(--font-display); font-weight: 500; font-size: 20px; }
+  .pager .nx { text-align: right; }
+
+  @media (max-width: 900px) {
+    .body { grid-template-columns: 1fr; gap: 12px; }
+    .side { position: static; padding-top: 0; }
+  }
+  @media (max-width: 620px) {
+    .titleblock { grid-template-columns: 1fr; }
+    .titleblock > div { border-right: 0; border-top: 1px solid var(--line-strong); }
+    .titleblock > div:first-child { border-top: 0; }
+    .pager { grid-template-columns: 1fr; }
+    .gallery .grid { grid-template-columns: 1fr; }
+  }
+</style>

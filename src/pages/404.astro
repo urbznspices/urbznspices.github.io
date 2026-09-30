@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Signal lost">
+  <section class="wrap lost">
+    <p class="eyebrow"><span class="dot"></span>Error 404 · loss of signal</p>
+    <h1>This pass has<br /><em>no contact.</em></h1>
+    <p>The page you're looking for is below the horizon. Try the next ground station:</p>
+    <a class="btn primary" href="/">Return home</a>
+  </section>
+</Base>
+
+<style>
+  .lost { padding-block: 120px; }
+  h1 { font-size: clamp(48px, 8vw, 104px); font-weight: 400; margin: 18px 0 24px; line-height: .95; }
+  h1 em { color: var(--accent); }
+  p { color: var(--ink-2); }
+</style>
