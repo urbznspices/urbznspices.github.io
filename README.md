@@ -16,11 +16,12 @@ npm run preview    # serve the production build
 | What | Where |
 |---|---|
 | Project stories (one Markdown file each) | `src/content/projects/*.md` |
-| Project fields (title, metrics, gallery, demo…) | `src/content.config.ts` |
-| Home page (hero, telemetry strip, work grid, "Now", music) | `src/pages/index.astro` |
+| Project fields (title, summary, metrics, gallery, demo…) | `src/content.config.ts` |
+| Experience, skills, education (mirror of `../Resume/master_experience.md`) | `src/data/experience.ts` |
+| Home page (hero, experience, projects, skills, education) | `src/pages/index.astro` |
 | About / Résumé / 404 | `src/pages/about.astro`, `resume.astro`, `404.astro` |
 | Project page template | `src/pages/projects/[slug].astro` |
-| Theme (colors, fonts, prose) | `src/styles/global.css` |
+| Theme (light default + dark toggle, Inter, navy accent) | `src/styles/global.css` |
 | Images (web-sized) | `public/images/` |
 | Résumé & CV PDFs served by the site | `public/Arel_Urbanozo_Resume.pdf`, `public/Arel_Urbanozo_CV.pdf` |
 | Live demos | `public/demos/<name>/index.html` (built from `demos-src/`) |
@@ -31,9 +32,12 @@ npm run preview    # serve the production build
    - `order` sets the sort position.
    - `featured: true` puts the project in the big grid on the home page.
    - `draft: true` hides the project from the built site.
-3. Write the story in Markdown under `##` headings. The pattern used so far is Problem → Role → Approach → Results → Learned.
+3. Optional fields: `summary` (challenge / contribution / result box), `category`, `teamSize`, and `hero` (a real photo for the project page; `cover` stays the card image).
+4. Write the story under these `##` headings, in this order: **Overview → My role → Technical approach → Results → Lessons learned**.
 
 ### Update images
+**New photos:** drop originals into `../Photos_Inbox/<project-slug>/` and run `python scripts/prepare_assets.py`. They come out as `public/images/inbox/<slug>/*.webp`, max 1600 px, with all EXIF/GPS metadata stripped.
+
 Run `python scripts/prepare_assets.py`. It copies and resizes the source images from Downloads/Documents into `public/images/` as `.webp`. It needs `pip install pillow pymupdf`.
 
 The KiCad renders in `scripts/renders/` were made with KiCad 10's command-line tool:

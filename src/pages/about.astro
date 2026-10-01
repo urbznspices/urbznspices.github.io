@@ -1,73 +1,106 @@
 ---
 import Base from '../layouts/Base.astro';
+import { education } from '../data/experience';
 const timeline = [
-  { when: '2023', what: 'Arrived at UAH from Kamuela, Hawai\'i. Joined the Space Hardware Club and designed my first flight board (Ho\'omau).' },
-  { when: '2024', what: 'Led CanSat Team Shockwave as a freshman: 2nd internationally, top U.S. team. Started at the ETLC keeping 130 classrooms running.' },
-  { when: '2025', what: 'Teaching Assistant for EGR 101: office hours, debugging and grading students\' Python and MATLAB code.' },
-  { when: '2026', what: 'Joined the UAH IDEAS Lab: Lead Systems Engineer & Comms Lead on ChargerSat-2, and curriculum, hardware and test lead for INTREPID.' },
-  { when: '2027', what: 'B.S. Aerospace Engineering (May). Next: spacecraft systems engineering, and eventually a master\'s in engineering management.' },
+  { when: '2023', what: "Started the B.S. in Aerospace Engineering at UAH. Joined the Space Hardware Club and designed my first flight board (Ho'omau CanSat)." },
+  { when: '2024', what: 'Led CanSat Team Shockwave to 2nd place internationally and top U.S. team. Joined the ETLC as a student A/V specialist.' },
+  { when: '2025', what: 'Teaching Assistant for EGR 101 (Introduction to Computing for Engineers), supporting Python and MATLAB instruction.' },
+  { when: '2026', what: 'Joined the UAH IDEAS Lab as a Research Assistant: Lead Systems Engineer & Communications Lead on ChargerSat-2, and curriculum, hardware and test for INTREPID.' },
+  { when: '2027', what: 'B.S. Aerospace Engineering expected in May. Seeking spacecraft systems engineering roles, then a graduate degree in engineering management.' },
+];
+const looking = [
+  { k: 'Roles', v: 'Spacecraft / small-satellite systems engineering; mission and communications engineering; technical program support' },
+  { k: 'Start', v: 'Full-time from June 2027' },
+  { k: 'Location', v: 'Huntsville, AL, or open to relocation' },
 ];
 ---
-<Base title="About" description="About Arel Urbanozo: aerospace engineering senior, spacecraft systems engineer, educator and composer.">
+<Base title="About" description="About Arel Urbanozo: aerospace engineering senior at UAH focused on spacecraft systems and communications engineering.">
   <section class="wrap about">
     <div class="intro">
-      <p class="eyebrow rise"><span class="dot"></span>About</p>
-      <h1 class="rise" style="animation-delay:.06s">From Kamuela<br /><em>to low Earth orbit.</em></h1>
-      <div class="prose rise" style="animation-delay:.12s">
+      <p class="label">About</p>
+      <h1>About me</h1>
+      <div class="prose">
         <p>
-          I grew up in Kamuela, on the Island of Hawai'i, and came to the University of Alabama in Huntsville, down the road from NASA's Marshall Space Flight Center, to study aerospace engineering.
+          I'm an aerospace engineering senior at the University of Alabama in Huntsville, minutes from NASA's Marshall Space Flight
+          Center. My work centers on spacecraft systems engineering: the requirements, interfaces, budgets and verification that make
+          separately designed subsystems work as one vehicle.
         </p>
         <p>
-          What I've learned since is that I'm most useful <strong>between</strong> disciplines. On ChargerSat-2 I'm the Lead Systems Engineer and Communications Lead. My job is to make sure the power, structures, avionics, payload and radio teams are designing the same spacecraft, and to make sure the link actually closes. On INTREPID I do the same thing for high-school students: I translate real CubeSat engineering into hardware, tools and lessons they can own.
+          At the UAH IDEAS Lab I'm the Lead Systems Engineer and Communications Lead for <a href="/projects/chargersat-2">ChargerSat-2</a>,
+          a 12U CubeSat run under NASA Class D practice. I coordinate eight subsystem teams through Phase A and own the radio link from
+          link budget to licensing strategy. On the NASA-funded <a href="/projects/intrepid-payload-pcb">INTREPID</a> program I design the
+          payload hardware, test campaigns and curriculum that high-school teams use to build their own lunar CubeSat payloads.
         </p>
         <p>
-          Long term, I want to lead small-satellite programs as a technical project manager, and I plan to pursue a master's in engineering management along the way. I like the kind of work where you have to hold the whole system in your head and still sweat the details.
+          Before that, I led CanSat Team Shockwave as a first-year student, taking ten engineers through PDR, CDR, environmental testing
+          and flight to a 2nd-place international finish. That experience is why I care about clear interfaces, honest schedules and
+          documentation that the next person can actually use.
         </p>
-        <h2>Beyond engineering</h2>
         <p>
-          I'm a <strong>published classical composer</strong>, and I'm currently writing original stage musicals, doing the book, music and lyrics myself. Writing for an ensemble feels a lot like systems engineering: every part has its own constraints, and the whole thing only works if they resolve together. I also row with the UAH Rowing Club.
+          Long term, I want to lead small-satellite programs as a technical project manager, and I plan to pursue a master's degree in
+          engineering management.
+        </p>
+      </div>
+
+      <h2>What I'm looking for</h2>
+      <dl class="looking">
+        {looking.map((l) => <div><dt class="label">{l.k}</dt><dd>{l.v}</dd></div>)}
+      </dl>
+
+      <h2>Timeline</h2>
+      <ol class="tl">
+        {timeline.map((t) => (
+          <li><span class="when">{t.when}</span><p>{t.what}</p></li>
+        ))}
+      </ol>
+
+      <h2>Outside of engineering</h2>
+      <div class="prose">
+        <p>
+          I'm a published classical composer and am writing original stage musicals, both book and score. I also row with the UAH Rowing Club.
+          I grew up in Kamuela, on the Island of Hawai'i.
         </p>
       </div>
     </div>
-    <aside class="card rise" style="animation-delay:.18s">
+
+    <aside class="card side">
       <img src="/images/headshot.webp" alt="Portrait of Arel Urbanozo" width="604" height="900" />
       <dl>
-        <div><dt>Based in</dt><dd>Huntsville, AL</dd></div>
-        <div><dt>Studying</dt><dd>B.S. Aerospace Engineering, UAH · GPA 3.85</dd></div>
-        <div><dt>Graduating</dt><dd>May 2027</dd></div>
-        <div><dt>Looking for</dt><dd>Spacecraft systems, mission &amp; technical PM roles</dd></div>
+        <div><dt class="label">Education</dt><dd>{education.degree}<br />{education.school}</dd></div>
+        <div><dt class="label">Graduation</dt><dd>May 2027 · GPA {education.gpa}</dd></div>
+        <div><dt class="label">Based in</dt><dd>Huntsville, AL</dd></div>
       </dl>
-      <a class="btn primary" href="mailto:arelurbz@gmail.com">Get in touch</a>
+      <div class="side-actions">
+        <a class="btn primary" href="/Arel_Urbanozo_Resume.pdf">Download résumé</a>
+        <a class="btn" href="mailto:arelurbz@gmail.com">Email me</a>
+      </div>
     </aside>
-  </section>
-
-  <section class="wrap section tl">
-    <p class="eyebrow">Trajectory</p>
-    <ol>
-      {timeline.map((t) => (
-        <li><span class="when">{t.when}</span><p>{t.what}</p></li>
-      ))}
-    </ol>
   </section>
 </Base>
 
 <style>
-  .about { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 64px; padding-top: clamp(32px, 6vw, 72px); }
-  h1 { font-size: clamp(46px, 7vw, 88px); line-height: .95; margin: 18px 0 32px; font-weight: 400; letter-spacing: -.03em; font-variation-settings: 'opsz' 144; }
-  h1 em { color: var(--accent); }
-  .card { position: sticky; top: 90px; align-self: start; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 18px; }
-  .card img { border-radius: 10px; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; width: 100%; }
-  .card dl { margin: 0; display: grid; gap: 12px; }
-  .card dt { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-  .card dd { margin: 2px 0 0; font-size: 15px; }
-  .tl ol { list-style: none; margin: 24px 0 0; padding: 0; border-left: 1px dashed var(--line-strong); }
-  .tl li { position: relative; display: grid; grid-template-columns: 90px 1fr; gap: 20px; padding: 0 0 30px 28px; }
-  .tl li::before { content: ''; position: absolute; left: -6px; top: 8px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
-  .when { font-family: var(--font-display); font-size: 28px; line-height: 1; color: var(--accent); }
-  .tl p { margin: 0; color: var(--ink-2); max-width: 64ch; }
+  .about { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 64px; padding-block: clamp(32px, 6vw, 64px) 72px; }
+  h1 { margin: 10px 0 24px; }
+  .intro > h2 { font-size: 22px; margin: 48px 0 18px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .looking { margin: 0; display: grid; gap: 14px; }
+  .looking div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; }
+  .looking dt { padding-top: 3px; }
+  .looking dd { margin: 0; color: var(--ink-2); }
+  .tl { list-style: none; margin: 0; padding: 0; }
+  .tl li { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .tl li:first-child { padding-top: 0; }
+  .when { font-weight: 700; color: var(--ink); }
+  .tl p { margin: 0; color: var(--ink-2); max-width: 66ch; }
+  .side { position: sticky; top: 84px; align-self: start; padding: 16px; display: flex; flex-direction: column; gap: 18px; }
+  .side img { border-radius: 6px; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 18%; width: 100%; }
+  .side dl { margin: 0; display: grid; gap: 12px; }
+  .side dd { margin: 2px 0 0; font-size: 15px; }
+  .side-actions { display: grid; gap: 8px; }
   @media (max-width: 900px) {
-    .about { grid-template-columns: 1fr; }
-    .card { position: static; max-width: 420px; }
-    .tl li { grid-template-columns: 1fr; gap: 6px; }
+    .about { grid-template-columns: 1fr; gap: 40px; }
+    .side { position: static; max-width: 360px; }
+  }
+  @media (max-width: 560px) {
+    .looking div, .tl li { grid-template-columns: 1fr; gap: 2px; }
   }
 </style>

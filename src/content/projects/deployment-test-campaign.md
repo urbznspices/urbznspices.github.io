@@ -1,52 +1,64 @@
 ---
 title: "Deployer Velocity Test Campaign"
-tagline: "The IMU said 0.79 m/s. The photogate said 1.08. Finding out why meant thinking about structures, not software."
+tagline: "Characterized a CubeSat spring deployer and traced a 27% IMU velocity under-read to a structural fixture issue rather than a sensor or firmware fault."
 role: "Test Lead & Analyst"
 org: "UAH IDEAS Lab · INTREPID"
+category: "Test & analysis"
 dates: "Jul – Aug 2026"
 status: "Report delivered"
 order: 2
 featured: true
-tools: ["CircuitPython", "MPU-6050 @ 997 Hz", "Photogate", "Python / NumPy", "Signal analysis"]
+tools: ["CircuitPython", "MPU-6050 @ 997 Hz", "Photogate", "Python / NumPy", "Signal analysis", "Structural dynamics"]
 cover: "/images/deploy-diagnosis.webp"
 coverAlt: "Four-panel structural diagnosis figure: pulse shape versus ideal spring, structural ring-down, pusher contact duration by run, and energy accounting."
+summary:
+  challenge: "Before high-school teams are graded on separation velocity, verify that the program's spring deployer and the IMU-based measurement method can both be trusted."
+  contribution: "Planned and ran a seven-run instrumented campaign, performed the signal and structural analysis, and wrote the test report."
+  result: "Deployer confirmed at 1.08 m/s against 1.067 m/s predicted. IMU error isolated to fixture impact. A firmware configuration error was caught and a go/no-go criterion defined for student use."
 metrics:
   - { value: "n = 7", label: "instrumented deployments" }
-  - { value: "73%", label: "velocity the IMU actually captured" }
+  - { value: "73%", label: "of true velocity captured by the IMU" }
   - { value: "5.7×", label: "narrower pulse than spring theory allows" }
   - { value: "6.1%", label: "run-to-run spread (systematic, not noise)" }
 gallery:
-  - { src: "/images/deploy-traces.webp", alt: "Seven Z-axis acceleration traces with the ideal spring profile overlaid.", caption: "Figure 1: every run shows a sharp spike and ring-down, not the smooth half-cosine a spring produces." }
-  - { src: "/images/deploy-aggregate.webp", alt: "Peak-aligned aggregate of seven runs with per-axis comparison.", caption: "Figure 2: the sideways X-axis peaks reach 71% of Z, yet contribute only 6.6% of the impulse. That signature points to an impact." }
+  - { src: "/images/deploy-traces.webp", alt: "Seven Z-axis acceleration traces with the ideal spring profile overlaid.", caption: "Z-axis acceleration for all seven runs against the ideal spring profile. Every run shows a sharp spike and ring-down instead of a smooth half-cosine." }
+  - { src: "/images/deploy-aggregate.webp", alt: "Peak-aligned aggregate of seven runs with per-axis comparison.", caption: "Peak-aligned aggregate. Cross-axis (X) peaks reach 71% of Z but contribute only 6.6% of the impulse, a signature of impact." }
 ---
 
-## The setup
+## Overview
 
-INTREPID students deploy their CubeSat payloads from a spring-loaded, P-POD-style deployer, and they are graded on the separation velocity. Before putting that in front of high-schoolers, we needed to know the deployer, and the way we measured it, could be trusted.
+INTREPID student teams deploy their CubeSat payloads from a spring-loaded, P-POD-style deployer, and separation velocity is one of their graded results. Before putting that measurement in front of students, the program needed evidence that the deployer performs as designed and that the flight-style IMU measurement is accurate.
 
-The test article was a **1.17 kg** CubeSat mass model on a **1594 N/m** spring compressed **28.9 mm**. The expected separation velocity was **1.067 m/s**. Each run was measured two ways: a **photogate**, which gives ground truth, and the flight-style **MPU-6050 IMU** sampling at **997 Hz**, which integrates acceleration to get velocity.
+## My role
 
-## What we saw
+I was the **test lead and analyst**. I configured the instrumentation, ran the campaign, reduced the data and wrote the report, including the structural diagnosis and the recommendations for the next campaign.
 
-The deployer itself was fine. The photogate read **1.08 m/s**, so the spring was delivering essentially all of its stored energy.
+## Technical approach
 
-The IMU consistently reported only **0.786 m/s**, which is **73%** of the true value, with a tight **6.1%** spread across seven runs. A spread that small meant this wasn't noise. Something was systematically wrong.
+**Test article and instrumentation.** A **1.17 kg** CubeSat mass model on a **1594 N/m** spring compressed **28.9 mm**, giving a predicted separation velocity of **1.067 m/s**. Each run was measured two ways:
 
-## Detective work
+- A **photogate** as the ground-truth exit velocity.
+- An **MPU-6050 IMU** sampling at **997 Hz**, with acceleration integrated to velocity. This is the method students would use.
 
-The easy explanations were "bad sensor" or "bad firmware." The data didn't support either one.
+**Analysis.** The IMU consistently read low, so the analysis tested each candidate explanation against what the physics requires:
 
-1. **The pulse was the wrong shape.** A spring's peak acceleration and pulse length are locked together by ω = √(k/m). The measured pulse was **1.4× taller and 5.7× narrower** than theory at the same time. A spring can't do both, so the IMU wasn't recording a spring.
-2. **The sideways axis gave it away.** Cross-rail acceleration peaked at **71%** of the deployment axis but integrated to only **6.6%** of the impulse. A large, symmetric kick that cancels out to almost nothing is the signature of an *impact*.
-3. **I ruled out the obvious suspect.** A compliant electronics mount was the leading hypothesis. Ring-down analysis gave a mount natural frequency of **73.6 Hz** (ζ ≈ 0.066). At the push frequency the transmissibility is **1.03**, meaning the mount passes the push through almost perfectly. So the mount wasn't filtering the signal.
-4. **I found the real mechanism.** Measuring how long the pusher actually stayed in contact showed it separated at **49%** of the required stroke time. The article was being *struck* and then ringing, instead of being pushed smoothly.
+1. **Pulse shape.** For a spring, peak acceleration and pulse duration are coupled through ω = √(k/m). The measured pulse was **1.4× taller and 5.7× narrower** than theory at the same time, which a spring cannot produce.
+2. **Cross-axis signature.** Cross-rail acceleration peaked at **71%** of the deployment axis but integrated to only **6.6%** of the impulse. A large, symmetric, self-cancelling response points to an impact rather than a push.
+3. **Mount compliance (ruled out).** Ring-down analysis gave the electronics mount a natural frequency of **73.6 Hz** (ζ ≈ 0.066). At the push frequency the transmissibility is **1.03**, so the mount passes the push through essentially unchanged.
+4. **Contact duration.** The pusher separated from the article at **49%** of the theoretical stroke time. The article was being struck and then ringing, not pushed smoothly.
 
-Along the way, the analysis also caught a **firmware configuration error**: the test mass was logged as 0.45 kg instead of 1.17 kg. That error had silently skewed every "expected" value in the file headers.
+## Results
 
-## Outcome
+| Quantity | Value |
+|---|---|
+| Photogate velocity (truth) | **1.08 m/s**, consistent with 1.067 m/s predicted |
+| IMU-integrated velocity | **0.786 m/s**, 73% of truth |
+| Run-to-run spread | **6.1%**, indicating a systematic error |
 
-The report's conclusion was that this is a **fixture and structural issue, not a firmware defect**. It also noted that the validation gates built into the logger were what surfaced the discrepancy in the first place. The fix list for the next campaign covers the pusher interface and the configuration error, and it includes a clear go/no-go for letting students rely on IMU-derived velocity.
+- **Conclusion:** the deployer delivers its stored energy as designed. The IMU discrepancy is a **fixture and structural interaction, not a sensor or firmware defect**.
+- **Additional finding:** the logger configuration recorded the test mass as 0.45 kg instead of 1.17 kg, which had skewed every "expected" value in the file headers. The logger's built-in validation gates helped surface the discrepancy.
+- **Recommendations:** pusher-interface changes, the configuration fix, and an explicit go/no-go criterion for when students may rely on IMU-derived velocity.
 
-## What I learned
+## Lessons learned
 
-Good test engineering is mostly about **disbelieving your first explanation**. Writing down what the physics *requires*, and then checking where the data breaks it, turned "the sensor is bad" into a specific mechanical fix.
+Write down what the physics requires before you interpret the data. Checking each hypothesis against a hard constraint, such as the spring relation, the impulse balance or the transmissibility, turned "the sensor is bad" into a specific mechanical fix. It also kept the team from changing firmware that was working correctly.

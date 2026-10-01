@@ -1,8 +1,9 @@
 ---
 title: "Hooke's Law & CubeSat Deployment Simulator"
-tagline: "A physics lab that runs on any school Chromebook, offline, where students tune a spring to launch a CubeSat safely."
+tagline: "An offline physics lab for school Chromebooks in which students size a spring deployer to launch a CubeSat within velocity and load limits."
 role: "Designer & Developer"
 org: "UAH IDEAS Lab · INTREPID"
+category: "Software · STEM education"
 dates: "Aug 2026"
 status: "In classrooms · v5.2"
 order: 4
@@ -10,6 +11,10 @@ featured: true
 tools: ["React 19", "TypeScript", "Vite", "Canvas 2D", "Verlet integration", "WCAG 2.1 AA"]
 cover: "/images/hookes-sim.webp"
 coverAlt: "Screenshot of the CubeSat deployment simulator showing a spring deployer and velocity readouts."
+summary:
+  challenge: "Teach the physics of spring deployment before students test real hardware, on budget Chromebooks with strict web filters and unreliable internet."
+  contribution: "Designed and built the full application: physics engine, rendering, user interface, accessibility, and the teacher and IT documentation."
+  result: "A single ~320 KB HTML file that runs offline at 60 FPS, includes an NGSS-aligned 45-minute lesson, and is in use with INTREPID partner schools."
 metrics:
   - { value: "≈320 KB", label: "single-file build, fully offline" }
   - { value: "60 FPS", label: "canvas physics on budget Chromebooks" }
@@ -20,28 +25,39 @@ demo:
   label: "Launch the simulator"
   height: 760
 video: "/media/hookes-sim-mission.mp4"
+links:
+  - { label: "Deployer test campaign", href: "/projects/deployment-test-campaign" }
 ---
 
-## The problem
+## Overview
 
-INTREPID students need to understand **why** a spring deployer launches a CubeSat at the speed it does before they can test one. Their classrooms also impose real constraints: budget Chromebooks, strict web filters, and sometimes no reliable internet connection. Most physics simulations online are blocked, too heavy to run, or not about spacecraft.
+INTREPID students need to understand why a spring deployer launches a CubeSat at the velocity it does before they test one. Their classrooms impose real constraints: budget Chromebooks, strict web filters, and sometimes no reliable internet. Most online physics simulations are blocked, too heavy to run, or unrelated to spacecraft.
 
-## What I built
+## My role
 
-A self-contained web app with three modes:
+I was the **sole designer and developer**. I covered requirements gathering with the program team, the physics model, the interface, testing, accessibility, and the teacher and IT guides.
 
-1. **Fundamentals lab.** Students drag a spring and watch Hooke's Law come alive: a live force–displacement plot whose slope is *k*, a shaded energy triangle for ½kx², and energy bars showing potential energy trading into kinetic energy.
-2. **CubeSat mission challenge.** A P-POD-style pusher sled with calibrated 1U, 3U and 6U masses. Students have to choose a spring constant and compression that give **1.2–1.8 m/s** separation while keeping the peak load **≤ 15 g**. A virtual photogate times the exit, and runs can be exported to CSV so students can compare them with their own hardware tests.
+## Technical approach
+
+The application has three modes:
+
+1. **Fundamentals lab.** Students compress a spring and see Hooke's Law directly: a live force–displacement plot whose slope is *k*, the ½kx² energy area, and energy bars showing potential energy converting to kinetic energy.
+2. **CubeSat mission challenge.** A P-POD-style pusher with calibrated 1U, 3U and 6U masses. Students choose a spring constant and compression that achieve **1.2–1.8 m/s** separation while keeping peak load **≤ 15 g**. A virtual photogate times the exit, and runs export to CSV for comparison with hardware tests.
 3. **Theory.** A guided derivation from Hooke's 1678 result to modern deployment dynamics.
 
-## Engineering decisions
+Key engineering decisions:
 
-- **Physics you can trust.** The motion uses a Verlet integrator backed by an automated physics test suite, so what students see matches closed-form spring theory.
-- **Offline by design.** The whole app compiles to **one ~320 KB HTML file** with no CDN or network calls. Teachers can double-click it from a USB stick.
-- **Runs on cheap hardware.** A decoupled canvas renderer holds 60 FPS on 1366×768 Chromebooks without garbage-collection stutter.
-- **Accessible.** Full ARIA semantics, screen-reader announcements and keyboard controls, targeting WCAG 2.1 AA.
-- **Documented for teachers.** It ships with a 45-minute teacher guide aligned to NGSS HS-PS2-1, HS-PS3-1, HS-PS3-2 and HS-ETS1-2, plus an IT deployment guide.
+- **Verified physics.** Motion uses a Verlet integrator, checked by an automated test suite against closed-form spring solutions.
+- **Offline by design.** The app compiles to **one ~320 KB HTML file** with no CDN or network requests, so teachers can run it from a USB drive.
+- **Performance on low-end hardware.** A decoupled canvas renderer holds 60 FPS at 1366 × 768 without garbage-collection stutter.
+- **Accessibility.** ARIA semantics, screen-reader announcements and full keyboard control, targeting WCAG 2.1 AA.
+- **Documentation.** A 45-minute teacher guide aligned to NGSS HS-PS2-1, HS-PS3-1, HS-PS3-2 and HS-ETS1-2, plus an IT deployment guide.
 
-## Why it matters
+## Results
 
-The simulator links the classroom to the [real deployer test campaign](/projects/deployment-test-campaign). Students predict their launch velocity here, then measure it on hardware, and then have to explain the gap between the two. That is how engineering actually works.
+- Deployed with INTREPID partner schools as part of the program's deployment unit.
+- Links classroom prediction to [hardware measurement](/projects/deployment-test-campaign). Students predict their launch velocity in the simulator, measure it on the real deployer, and explain the difference.
+
+## Lessons learned
+
+Constraints should drive the architecture. Designing for the most restrictive classroom first (offline, filtered and low-powered) produced a tool that works everywhere, and it avoided an IT approval process for each school.

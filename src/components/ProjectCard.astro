@@ -1,54 +1,46 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-interface Props { project: CollectionEntry<'projects'>; index: number; size?: 'lg' | 'md' }
-const { project, index, size = 'md' } = Astro.props;
+interface Props { project: CollectionEntry<'projects'> }
+const { project } = Astro.props;
 const d = project.data;
-const num = String(index + 1).padStart(2, '0');
 ---
-<a class={`card ${size}`} href={`/projects/${project.id}`}>
+<a class="pcard" href={`/projects/${project.id}`}>
   <div class="media">
-    <img src={d.cover} alt={d.coverAlt} decoding="async" />
-    {d.demo && <span class="live">● Live demo</span>}
+    <img src={d.cover} alt={d.coverAlt} loading="lazy" decoding="async" />
+    {d.demo && <span class="live">Interactive demo</span>}
   </div>
   <div class="body">
-    <div class="meta"><span class="num">{num}</span><span>{d.dates}</span><span class="org">{d.org}</span></div>
+    <p class="meta label">{d.category ?? d.org}</p>
     <h3>{d.title}</h3>
-    <p>{d.tagline}</p>
-    <div class="foot">
-      <span class="role">{d.role}</span>
-      <span class="arrow" aria-hidden="true">→</span>
-    </div>
+    <p class="tagline">{d.tagline}</p>
+    <dl class="facts">
+      <dt class="sr-only">Role</dt><dd class="role">{d.role}</dd>
+      <dt class="sr-only">Dates</dt><dd>{d.dates}</dd>
+    </dl>
+    <ul class="tags">
+      {d.tools.slice(0, 3).map((t) => <li class="tag">{t}</li>)}
+    </ul>
   </div>
 </a>
 
 <style>
-  .card {
-    display: grid; grid-template-rows: auto 1fr; text-decoration: none; color: var(--ink);
-    background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
-    transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .25s ease, box-shadow .35s ease;
-    height: 100%;
+  .pcard {
+    display: flex; flex-direction: column; height: 100%; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+    transition: border-color .15s ease, box-shadow .15s ease;
   }
-  .card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 60%, var(--line)); box-shadow: var(--shadow); color: var(--ink); }
-  .media { position: relative; aspect-ratio: 16 / 10; background: #0d1322; overflow: hidden; border-bottom: 1px solid var(--line); }
-  .media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
-  .card:hover .media img { transform: scale(1.035); }
-  .lg .media { aspect-ratio: 16 / 9; }
-  @media (min-width: 901px) {
-    .lg { grid-template-columns: 1.45fr 1fr; grid-template-rows: none; }
-    .lg .media { aspect-ratio: auto; min-height: 380px; border-bottom: 0; border-right: 1px solid var(--line); }
-    .lg .body { padding: 36px 36px 30px; justify-content: center; }
-    .lg p { font-size: 17.5px; }
-  }
-  .live { position: absolute; top: 14px; left: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; background: var(--accent); color: var(--accent-ink); padding: 5px 10px; border-radius: 999px; font-weight: 600; }
-  .body { padding: 22px 24px 22px; display: flex; flex-direction: column; gap: 10px; }
-  .meta { display: flex; gap: 14px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-  .num { color: var(--accent); }
-  .org { opacity: .85; }
-  h3 { font-size: 25px; }
-  .lg h3 { font-size: clamp(28px, 3vw, 36px); }
-  p { margin: 0; color: var(--ink-2); font-size: 16px; }
-  .foot { margin-top: auto; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--line); font-size: 14px; color: var(--muted); }
-  .arrow { font-size: 20px; color: var(--accent); transition: transform .3s ease; }
-  .card:hover .arrow { transform: translateX(5px); }
-  @media (prefers-reduced-motion: reduce) { .card, .media img, .arrow { transition: none; } }
+  .pcard:hover { border-color: var(--line-strong); box-shadow: var(--shadow); color: var(--ink); text-decoration: none; }
+  .pcard:hover h3 { color: var(--accent); }
+  .media { position: relative; aspect-ratio: 16 / 10; background: var(--surface-2); border-bottom: 1px solid var(--line); overflow: hidden; }
+  .media img { width: 100%; height: 100%; object-fit: cover; }
+  .live { position: absolute; top: 10px; left: 10px; font-size: 12px; font-weight: 600; background: var(--surface); color: var(--ink); border: 1px solid var(--line); padding: 3px 8px; border-radius: 4px; }
+  .body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .meta { margin: 0; font-size: 11.5px; }
+  h3 { font-size: 19px; transition: color .15s ease; }
+  .tagline { margin: 0; color: var(--ink-2); font-size: 15px; line-height: 1.55; }
+  .facts { margin: 4px 0 0; font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+  .facts dd { margin: 0; }
+  .facts .role { color: var(--ink-2); font-weight: 500; }
+  .tags { list-style: none; margin: auto 0 0; padding: 10px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tags .tag { font-size: 12px; }
 </style>

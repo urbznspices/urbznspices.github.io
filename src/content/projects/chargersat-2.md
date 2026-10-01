@@ -1,63 +1,82 @@
 ---
 title: "ChargerSat-2"
-tagline: "Leading systems and communications engineering for a 12U CubeSat built to demonstrate autonomous AI in orbit."
+tagline: "Systems and communications engineering for a 12U CubeSat that will demonstrate onboard autonomous fault detection."
 role: "Lead Systems Engineer & Communications Lead"
 org: "UAH IDEAS Lab · i³ Lab"
+category: "Spacecraft systems · RF communications"
 dates: "Feb 2026 – Present"
 status: "Phase A · MDR/SRR"
+teamSize: "8 subsystem teams"
 order: 1
 featured: true
 tools: ["NASA SE (SP-2016-6105)", "Link budgets", "Requirements & VCRM", "ICDs", "Python", "Risk management"]
 cover: "/images/chargersat-cover.svg"
 coverAlt: "Illustration of a CubeSat in low Earth orbit with downlink beams to ground stations."
+summary:
+  challenge: "Take a university 12U CubeSat through NASA Class D Phase A: a reusable bus plus an onboard AI that monitors spacecraft telemetry for faults, studied for LEO, cislunar and heliocentric missions."
+  contribution: "Lead Systems Engineer for interfaces, requirements and verification across eight subsystem teams. Communications Lead for the full RF link, from link budget to licensing strategy."
+  result: "Baselined a 50 Mbps X-band LEO downlink at +4.04 dB margin. Identified a frequency-band constraint that re-planned the cislunar architecture. Authored the Universal Payload ICD."
 metrics:
   - { value: "12U", label: "CubeSat bus, NASA Class D" }
   - { value: "8", label: "subsystem teams coordinated" }
   - { value: "+4.04 dB", label: "LEO X-band link margin at 50 Mbps" }
   - { value: "3", label: "mission regimes traded: LEO, cislunar, heliocentric" }
-links:
-  - { label: "RF Mission Workbench write-up", href: "/projects/rf-mission-workbench" }
 ---
 
-## The mission
+## Overview
 
-ChargerSat-2 is a 12U CubeSat under development at UAH's IDEAS Lab and i³ Lab. It has two jobs: to be a reusable spacecraft bus that later university missions can build on, and to demonstrate an AI model running on board that watches the spacecraft's own telemetry for faults. The program follows NASA Class D practice, which means it has real milestone reviews, a controlled requirements baseline, and a risk register that the Chief Engineer actually reads.
+ChargerSat-2 is a 12U CubeSat in development at UAH's IDEAS Lab and i³ Lab. It has two objectives:
 
-We are in **Phase A**, the stage where the architecture is still flexible and a trade study can still change the design. That makes it the most useful time to be the person who connects everything.
+1. Provide a **reusable spacecraft bus** that future university missions can build on.
+2. Demonstrate an **onboard AI model** that monitors the spacecraft's own telemetry for faults.
+
+The program follows NASA Class D practice for a technology demonstration: formal milestone reviews, a controlled requirements baseline, configuration management and an actively managed risk register. It is in **Phase A**, where the architecture is still open and trade studies drive the design.
 
 ## My role
 
-I hold two roles on the project.
+I hold two positions and report to the Chief Engineer and Mission Manager.
 
-- **Lead Systems Engineer.** I own the interfaces *between* subsystems. I break mission goals down into requirements that each team can verify, and I keep the verification matrix honest. In practice I spend a lot of time making sure the C&DH, power, structures, thermal, payload-AI and RF teams all agree on the same numbers.
-- **Communications Lead.** I own the radio link from end to end: telemetry and command, the high-rate payload downlink, link budgets, ground-station planning, and the spectrum-licensing strategy.
+- **Lead Systems Engineer.** I own the interfaces between subsystems. I decompose mission objectives into verifiable requirements and maintain the verification matrix. I also keep the C&DH, power, structures, thermal, harness, payload-AI and RF teams working from one consistent set of numbers.
+- **Communications Lead.** I own the RF link end to end: telemetry and command, the high-rate payload downlink, link budgets, ground-station planning and spectrum licensing strategy.
 
-## Closing the link
+## Technical approach
 
-The mission is studying three regimes: a primary **500 km LEO** orbit, and more ambitious **cislunar** and **heliocentric** cases. I built the communications plan and link-margin analysis that covers all three.
+### Communications architecture and link analysis
 
-For LEO, a **50 Mbps X-band downlink closes with +4.04 dB of margin** at a 5° elevation mask. That comfortably clears our 3 dB requirement. A tempting 100 Mbps option closed at only +2.03 dB, so the analysis showed it should *not* be baselined, even though it looked attractive on a slide. In deep space the X-band payload link doesn't close at all, while a low-rate S-band telemetry link does. That result shaped what the deep-space variants of the mission can realistically promise.
+The mission studies three regimes: a primary **500 km LEO** orbit, and **cislunar** and **heliocentric** variants. I wrote the communications plan and the link-margin analysis covering all three. It evaluates each candidate data rate against a 3 dB margin requirement at a 5° elevation mask.
 
-> The most valuable thing I've found so far wasn't in a spreadsheet. It was one line in a radio datasheet.
+| Case | Result | Decision |
+|---|---|---|
+| LEO X-band, 50 Mbps | **+4.04 dB** | Baselined |
+| LEO X-band, 100 Mbps | +2.03 dB | Rejected: fails 3 dB requirement |
+| Deep space X-band payload link | Does not close | Not viable for deep-space variants |
+| Deep space S-band telemetry, low rate | Closes | Carried forward for deep-space variants |
 
-## The finding that reshaped the plan
+The 100 Mbps option was attractive on paper. The analysis kept it from being baselined before it became a commitment.
 
-While reconciling the radio hardware against NASA's Deep Space Network, I found that our baselined X-band radio **physically cannot tune into the 8400–8450 MHz deep-space band** that the DSN listens on. An accessory filter kit that had been treated as the fix only protects the DSN from interference. It doesn't move the radio into that band.
+### Frequency allocation finding
 
-That discovery had consequences across the project:
+While reconciling the radio hardware against NASA's Deep Space Network, I found that the baselined X-band radio **cannot tune into the 8400–8450 MHz deep-space allocation** the DSN uses. An accessory that had been treated as the fix only protects the DSN from interference. It does not move the radio into that band.
 
-- The cislunar architecture was re-planned around **S-band** for deep-space telemetry, or around commercial lunar ground networks, rather than assuming DSN X-band access.
-- I set **FCC Part 5 Experimental licensing** as the primary regulatory path, with a documented fallback. I wrote it up as a formal regulatory baseline and added it to the risk register with owners and closure gates.
-- Both issues became tracked risks. Each started red and has a mitigation plan that brings it to green by the milestone reviews.
+The consequences:
 
-## Other work I own
+- The cislunar architecture was re-planned around **S-band** telemetry or commercial lunar ground networks, rather than assuming DSN X-band access.
+- I set **FCC Part 5 Experimental licensing** as the primary regulatory path, with a documented fallback, and captured it in a formal regulatory baseline.
+- Both issues entered the risk register with owners, mitigation plans and closure gates tied to the milestone reviews.
 
-- **Universal Payload ICD.** Defines the envelope, mass, power and data interfaces that any future payload has to fit: roughly a 6.5U bay, ≤ 8.5 kg, and ≤ 42 W orbit-average.
-- **Document control for Phase A.** A controlled set of documents (SEMP, communications plan, regulatory baseline, Class D risk register, configuration management plan) with automated scripts that check requirements traceability, so the documents stay consistent with each other.
-- **The [RF Mission Workbench](/projects/rf-mission-workbench).** A tool I built to make communications trades quicker to run and easier to show others.
+### Interfaces and documentation
 
-## What I'm learning
+- **Universal Payload ICD.** Defines the envelope, mass, power and data interfaces any future payload must meet: roughly a 6.5U bay, ≤ 8.5 kg, ≤ 42 W orbit-average power, and CAN/CSP and SpaceWire data interfaces.
+- **Phase A document set.** A controlled set comprising the SEMP, communications plan, regulatory baseline, Class D risk register and configuration management plan. Automated checks keep requirements traceability consistent across documents.
 
-Systems engineering is mostly about **making disagreements visible early**. A link budget, an ICD or a risk entry is useful because it gives two teams one number to argue about, and it gets them arguing now instead of at integration.
+## Results
+
+- A baselined LEO downlink architecture with quantified margin, and a clear rationale for rejecting the higher-rate option.
+- An early, documented resolution of a frequency-allocation issue that would otherwise have surfaced much later in the design.
+- A payload interface standard and controlled document baseline supporting the program's Phase A MDR/SRR gate review.
+
+## Lessons learned
+
+Systems engineering is largely about **surfacing disagreements early**. A link budget, an ICD or a risk entry is valuable because it gives two teams one number to work from, and it moves the conversation forward from integration to Phase A, when changes are still cheap.
 
 *This page is a public summary. Detailed analyses, vendor data and internal documents belong to the ChargerSat-2 program and aren't reproduced here.*

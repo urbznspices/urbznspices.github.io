@@ -1,181 +1,178 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import OrbitPortrait from '../components/OrbitPortrait.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import ExperienceItem from '../components/ExperienceItem.astro';
+import { experience, skills, education } from '../data/experience';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft || import.meta.env.DEV)).sort((a, b) => a.data.order - b.data.order);
-const featured = projects.filter((p) => p.data.featured);
-const more = projects.filter((p) => !p.data.featured);
 
-const telemetry = [
-  { k: 'LINK MARGIN', v: '+4.04', u: 'dB', d: 'ChargerSat-2 X-band, LEO' },
-  { k: 'CANSAT 2024', v: '2nd', u: 'INTL', d: 'Top U.S. team · Team Lead' },
-  { k: 'FLIGHT PCB', v: '7', u: 'REVS', d: 'Shockwave avionics, KiCad' },
-  { k: 'CURRICULUM', v: '17', u: 'WK', d: 'NASA-funded lunar CubeSat program' },
+const facts = [
+  { k: 'Degree', v: 'B.S. Aerospace Engineering, UAH' },
+  { k: 'Graduation', v: 'May 2027' },
+  { k: 'GPA', v: education.gpa },
+  { k: 'Location', v: 'Huntsville, AL' },
 ];
 ---
 <Base>
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="copy">
-        <p class="eyebrow rise"><span class="dot"></span>Aerospace Engineering · UAH · Class of 2027</p>
-        <h1 class="rise" style="animation-delay:.08s">Arel<br /><em>Urbanozo</em></h1>
-        <p class="lede rise" style="animation-delay:.16s">
-          I engineer the parts of a spacecraft where everything has to fit together: the interfaces, the budgets, and the link that
-          either closes or doesn't.
+        <p class="label">Aerospace Engineering · Spacecraft Systems</p>
+        <h1>Arel Urbanozo</h1>
+        <p class="lede">
+          Aerospace engineering senior at the University of Alabama in Huntsville. I lead systems and communications engineering on
+          ChargerSat-2, a 12U NASA Class D CubeSat, and design flight and classroom hardware for NASA-funded student space programs.
         </p>
-        <p class="sub rise" style="animation-delay:.22s">
-          Lead Systems Engineer &amp; Comms Lead on <a href="/projects/chargersat-2">ChargerSat-2</a>, a 12U NASA Class D CubeSat. Previously led{' '}
-          <a href="/projects/cansat-shockwave">CanSat Team Shockwave</a> to 2nd internationally.
+        <p class="sub">
+          I'm seeking spacecraft systems engineering roles starting in 2027, with a long-term path toward technical program management.
         </p>
-        <div class="ctas rise" style="animation-delay:.3s">
-          <a class="btn primary" href="#work">See the work ↓</a>
-          <a class="btn" href="/Arel_Urbanozo_Resume.pdf">Résumé</a>
+        <div class="ctas">
+          <a class="btn primary" href="/Arel_Urbanozo_Resume.pdf">Download résumé</a>
           <a class="btn" href="https://www.linkedin.com/in/arel-urbanozo-6a0b07334/" rel="noopener">LinkedIn</a>
+          <a class="btn" href="mailto:arelurbz@gmail.com">Email</a>
         </div>
       </div>
-      <div class="portrait rise" style="animation-delay:.12s"><OrbitPortrait /></div>
+      <figure class="portrait">
+        <img src="/images/headshot.webp" alt="Portrait of Arel Urbanozo" width="604" height="900" fetchpriority="high" />
+      </figure>
     </div>
-
     <div class="wrap">
-      <dl class="telemetry rise" style="animation-delay:.38s">
-        {telemetry.map((t) => (
-          <div class="readout">
-            <dt>{t.k}</dt>
-            <dd><span class="v">{t.v}</span><span class="u">{t.u}</span></dd>
-            <dd class="d">{t.d}</dd>
-          </div>
+      <dl class="facts">
+        {facts.map((f) => (
+          <div><dt class="label">{f.k}</dt><dd>{f.v}</dd></div>
         ))}
       </dl>
     </div>
   </section>
 
-  <section id="work" class="section">
+  <section id="experience" class="section">
     <div class="wrap">
       <div class="section-head">
+        <p class="label">Experience</p>
         <div>
-          <p class="eyebrow">Selected work</p>
-          <h2>Flight record</h2>
-          <p>Spacecraft systems, test campaigns and hardware, each written up as a full story: the problem, my role, what I did, and what I learned.</p>
+          <h2>Experience &amp; leadership</h2>
+          <p>Research, leadership and teaching roles, most recent first.</p>
         </div>
       </div>
-      <div class="featured">
-        {featured.map((p, i) => (
-          <div class={`f f${i}`}><ProjectCard project={p} index={i} size={i === 0 ? 'lg' : 'md'} /></div>
+      <div class="xp">
+        {experience.map((r) => <ExperienceItem role={r} />)}
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section alt">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Projects</p>
+        <div>
+          <h2>Selected projects</h2>
+          <p>Each case study covers the problem, my role, the technical approach, results, and lessons learned.</p>
+        </div>
+      </div>
+      <div class="grid">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Skills</p>
+        <div><h2>Technical skills</h2></div>
+      </div>
+      <div class="skills">
+        {skills.map((s) => (
+          <div class="skill card">
+            <h3>{s.area}</h3>
+            <ul>{s.items.map((i) => <li>{i}</li>)}</ul>
+          </div>
         ))}
       </div>
+    </div>
+  </section>
 
-      <div class="section-head more-head">
-        <div>
-          <p class="eyebrow">More builds</p>
-          <h3 class="h3">Boards, tools &amp; analysis</h3>
+  <section id="education" class="section alt">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">Education</p>
+        <div><h2>Education &amp; honors</h2></div>
+      </div>
+      <div class="edu">
+        <div class="card edu-main">
+          <div class="edu-top">
+            <div>
+              <h3>{education.school}</h3>
+              <p class="deg">{education.degree} · GPA {education.gpa}</p>
+            </div>
+            <p class="when">{education.dates}</p>
+          </div>
+          <h4>Relevant coursework</h4>
+          <ul class="chips">{education.coursework.map((c) => <li class="tag">{c}</li>)}</ul>
+        </div>
+        <div class="card edu-side">
+          <h4>Awards</h4>
+          <ul class="plain">
+            {education.awards.map((a) => <li><strong>{a.title}</strong><span>{a.detail}</span></li>)}
+          </ul>
+          <h4>Academic honors</h4>
+          <ul class="plain">{education.honors.map((h) => <li>{h}</li>)}</ul>
         </div>
       </div>
-      <div class="more">
-        {more.map((p, i) => <ProjectCard project={p} index={featured.length + i} />)}
-      </div>
-    </div>
-  </section>
-
-  <section class="section now">
-    <div class="wrap now-grid">
-      <div>
-        <p class="eyebrow">Now · Fall 2026</p>
-        <h2>What I'm working on</h2>
-      </div>
-      <ul class="now-list">
-        <li><span>ChargerSat-2</span>Taking the Phase A package through the MDR/SRR gate and closing out communications licensing risks.</li>
-        <li><span>INTREPID</span>Piloting the lunar CubeSat curriculum with partner high schools, including test days and technical reviews.</li>
-        <li><span>MAE 490</span>Senior capstone in Mission Design, on the Radiation Test Bed integrated product team.</li>
-        <li><span>Coursework</span>Graduate-level Rocket Propulsion and Aircraft Stability &amp; Control, plus Systems &amp; Controls.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section beyond">
-    <div class="wrap beyond-grid">
-      <div class="beyond-card">
-        <p class="eyebrow">Beyond engineering</p>
-        <h2>Composer, <em>too.</em></h2>
-        <p>
-          I'm a published classical composer, and I'm writing original musicals (book, music and lyrics). Composing and systems engineering
-          turn out to be the same job: many voices, one structure, and every part has to resolve.
-        </p>
-        <p class="small">Also: UAH Rowing Club · raised in Kamuela on the Island of Hawai'i.</p>
-        <a class="btn" href="/about">More about me →</a>
-      </div>
-      <svg class="staff" viewBox="0 0 400 220" aria-hidden="true">
-        {[0, 1, 2, 3, 4].map((i) => <line x1="0" x2="400" y1={60 + i * 18} y2={60 + i * 18} />)}
-        <path class="wave" d="M0 114 C 40 60, 80 168, 120 114 S 200 60, 240 114 S 320 168, 360 114 S 400 90, 420 100" />
-        {[40, 110, 170, 250, 320].map((x, k) => <ellipse cx={x} cy={[96, 132, 78, 114, 96][k]} rx="9" ry="6.5" transform={`rotate(-20 ${x} ${[96, 132, 78, 114, 96][k]})`} />)}
-      </svg>
     </div>
   </section>
 </Base>
 
 <style>
-  .hero { padding-top: clamp(40px, 7vw, 90px); position: relative; }
-  .hero::after {
-    content: ''; position: absolute; inset: -80px 0 auto; height: 700px; z-index: -1; pointer-events: none;
-    background: radial-gradient(600px 380px at 78% 30%, var(--accent-soft), transparent 70%);
-  }
-  .hero-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(24px, 5vw, 64px); align-items: center; }
-  h1 { font-size: clamp(64px, 11vw, 148px); line-height: .9; margin: 22px 0 28px; font-weight: 400; letter-spacing: -.035em; font-variation-settings: 'opsz' 144; }
-  h1 em { font-style: italic; color: var(--accent); font-weight: 400; }
-  .lede { font-family: var(--font-display); font-size: clamp(21px, 2.2vw, 27px); line-height: 1.35; max-width: 30ch; margin: 0 0 18px; color: var(--ink); }
-  .sub { color: var(--ink-2); max-width: 52ch; margin: 0 0 30px; }
+  .hero { padding-block: clamp(48px, 7vw, 88px) clamp(40px, 5vw, 56px); }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: clamp(32px, 6vw, 80px); align-items: center; }
+  h1 { margin: 12px 0 20px; }
+  .lede { font-size: clamp(18px, 1.8vw, 20px); line-height: 1.6; color: var(--ink); max-width: 60ch; margin: 0 0 14px; }
+  .sub { color: var(--muted); max-width: 60ch; margin: 0 0 28px; }
   .ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+  .portrait { margin: 0; }
+  .portrait img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 18%; border-radius: var(--radius); border: 1px solid var(--line); }
 
-  .telemetry { margin: clamp(48px, 7vw, 88px) 0 0; display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: var(--radius); background: color-mix(in srgb, var(--bg-2) 80%, transparent); }
-  .readout { padding: 22px 24px; border-left: 1px solid var(--line); }
-  .readout:first-child { border-left: 0; }
-  dt { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .16em; color: var(--muted); }
-  dd { margin: 6px 0 0; }
-  .v { font-family: var(--font-display); font-size: clamp(34px, 4vw, 48px); line-height: 1; color: var(--ink); font-variation-settings: 'opsz' 144; }
-  .u { font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-left: 8px; letter-spacing: .08em; }
-  .d { color: var(--muted); font-size: 14px; }
+  .facts { margin: clamp(40px, 5vw, 56px) 0 0; display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .facts > div { padding: 16px 20px; border-left: 1px solid var(--line); }
+  .facts > div:first-child { border-left: 0; }
+  .facts dd { margin: 4px 0 0; font-weight: 600; font-size: 15.5px; }
 
-  .featured { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
-  .f0 { grid-column: 1 / -1; }
-  .f1, .f2, .f3, .f4 { grid-column: span 3; }
-  /* six featured (once the workbench is published): three across on the bottom row */
-  .f3:nth-last-child(3), .f3:nth-last-child(3) ~ .f { grid-column: span 2; }
-  .more-head { margin-top: 72px; }
-  .h3 { font-size: clamp(24px, 2.6vw, 30px); margin-top: 8px; }
-  .more { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+  .xp { display: grid; gap: 0; }
 
-  .now { background: var(--bg-2); border-block: 1px solid var(--line); }
-  .now-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; }
-  .now-list { list-style: none; margin: 0; padding: 0; }
-  .now-list li { display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line); color: var(--ink-2); }
-  .now-list li:first-child { padding-top: 0; }
-  .now-list span { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); padding-top: 3px; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 
-  .beyond-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
-  .beyond-card h2 { margin: 12px 0 18px; }
-  .beyond-card h2 em { color: var(--accent); }
-  .beyond-card p { color: var(--ink-2); max-width: 52ch; }
-  .small { font-size: 15px; color: var(--muted) !important; margin-bottom: 26px; }
-  .staff line { stroke: var(--line-strong); stroke-width: 1; }
-  .staff ellipse { fill: var(--ink); }
-  .staff .wave { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-dasharray: 3 6; }
+  .skills { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .skill { padding: 20px; }
+  .skill h3 { font-size: 16px; padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .skill ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; font-size: 14.5px; color: var(--ink-2); }
+
+  .edu { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; }
+  .edu-main, .edu-side { padding: 24px; }
+  .edu-top { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+  .deg { margin: 4px 0 0; color: var(--ink-2); }
+  .when { margin: 0; color: var(--muted); font-size: 14.5px; }
+  h4 { margin: 0 0 10px; }
+  .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .plain { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 8px; font-size: 15px; color: var(--ink-2); }
+  .plain:last-child { margin-bottom: 0; }
+  .plain li { display: flex; flex-direction: column; }
+  .plain span { color: var(--muted); font-size: 14px; }
 
   @media (max-width: 960px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .portrait { order: -1; max-width: 380px; margin-inline: auto; width: 100%; }
-    .telemetry { grid-template-columns: repeat(2, 1fr); }
-    .readout:nth-child(3) { border-left: 0; }
-    .readout:nth-child(n+3) { border-top: 1px solid var(--line); }
-    .featured { grid-template-columns: 1fr 1fr; }
-    .f0 { grid-column: 1 / -1; }
-    .f1, .f2, .f3, .f4 { grid-column: span 1; }
-    .now-grid, .beyond-grid { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
-  @media (max-width: 620px) {
-    .featured { grid-template-columns: 1fr; }
-    .f0, .f1, .f2, .f3, .f4 { grid-column: span 1; }
-    .now-list li { grid-template-columns: 1fr; gap: 4px; }
-    .readout { padding: 18px; }
+  @media (max-width: 820px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .portrait { order: -1; max-width: 200px; }
+    .facts { grid-template-columns: 1fr 1fr; }
+    .facts > div:nth-child(3) { border-left: 0; }
+    .facts > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .edu { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .grid, .skills { grid-template-columns: 1fr; }
   }
 </style>

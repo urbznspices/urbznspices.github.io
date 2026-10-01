@@ -11,6 +11,13 @@ const projects = defineCollection({
     org: z.string(),
     dates: z.string(),
     status: z.string().default('Complete'),
+    teamSize: z.string().optional(),
+    category: z.string().optional(),
+    // "At a glance" box: challenge / contribution / result
+    summary: z.object({ challenge: z.string(), contribution: z.string(), result: z.string() }).optional(),
+    // optional real photo shown on the project page; `cover` stays the card image
+    hero: z.string().optional(),
+    heroAlt: z.string().optional(),
     order: z.number(),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),

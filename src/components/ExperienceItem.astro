@@ -1,0 +1,38 @@
+---
+import type { Role } from '../data/experience';
+interface Props { role: Role }
+const { role: r } = Astro.props;
+---
+<article class="xp-item">
+  <div class="when">
+    <p class="dates">{r.dates}</p>
+    <p class="loc">{r.location}</p>
+  </div>
+  <div class="what">
+    <h3>{r.title}</h3>
+    <p class="org">{r.org}{r.unit && <span> · {r.unit}</span>}</p>
+    {r.summary && <p class="summary">{r.summary}</p>}
+    <ul>{r.bullets.map((b) => <li>{b}</li>)}</ul>
+    {r.link && <a class="more" href={r.link.href}>View {r.link.label} →</a>}
+  </div>
+</article>
+
+<style>
+  .xp-item { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; padding-block: 28px; border-top: 1px solid var(--line); }
+  .xp-item:first-child { border-top: 0; padding-top: 0; }
+  .when p { margin: 0; }
+  .dates { font-weight: 600; font-size: 15px; color: var(--ink); }
+  .loc { color: var(--muted); font-size: 14px; }
+  .org { margin: 4px 0 0; font-weight: 500; color: var(--ink-2); }
+  .org span { font-weight: 400; color: var(--muted); }
+  .summary { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+  ul { margin: 12px 0 0; padding-left: 1.2em; color: var(--ink-2); max-width: 78ch; }
+  li { margin-bottom: 6px; }
+  li::marker { color: var(--muted); }
+  .more { display: inline-block; margin-top: 6px; font-size: 15px; font-weight: 500; }
+  @media (max-width: 820px) {
+    .xp-item { grid-template-columns: 1fr; gap: 6px; }
+    .when { display: flex; gap: 10px; flex-wrap: wrap; }
+    .loc::before { content: '· '; }
+  }
+</style>
