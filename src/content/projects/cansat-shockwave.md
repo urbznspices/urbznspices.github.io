@@ -12,6 +12,8 @@ featured: true
 tools: ["KiCad", "Teensy 4.1 / C++", "XBee telemetry", "Autodesk Inventor", "Python ground station", "Trade studies", "Environmental testing"]
 cover: "/images/shockwave-avionics.webp"
 coverAlt: "Assembled Shockwave avionics plate: Teensy 4.1, XBee radio, BMP390 and BNO055 sensors, and voltage regulators on a laser-cut mounting ring."
+hero: "/images/shockwave-awards-team.webp"
+heroAlt: "Team Shockwave holding a U.S. flag at the 2024 CanSat Competition awards ceremony, in front of an American Astronautical Society banner."
 summary:
   challenge: "Design a nose-cone probe that protects an egg through rocket ejection at up to 725 m, descends without tumbling on an aerobrake and then a parachute, and streams live telemetry to a team-built ground station."
   contribution: "Team lead from concept through post-flight review. Mission control officer on launch day. Designed the flight PCB and contributed to electrical and software subsystems."
@@ -24,6 +26,8 @@ metrics:
 links:
   - { label: "Official 2024 results", href: "https://www.cansatcompetition.com/winners.html" }
 gallery:
+  - { src: "/images/shockwave-trophy.webp", alt: "Arel Urbanozo holding the 2nd-place CanSat Competition trophy.", caption: "With the 2nd-place international trophy, CanSat Competition 2024." }
+  - { src: "/images/shockwave-launch-team.webp", alt: "Team Shockwave at the launch field with the competition rocket.", caption: "Launch day: the team with the integrated rocket before flight." }
   - { src: "/images/shockwave-cad.webp", alt: "Cutaway CAD model of the Shockwave CanSat showing aerobrake, release servo, camera mount, egg container, PCB and sensors, and nose cone.", caption: "Flight configuration (Autodesk Inventor): aerobrake and release servo, camera mount, spring-suspended egg container, avionics and fiberglass nose cone." }
   - { src: "/images/shockwave-nosecone.webp", alt: "Looking into the fiberglass nose cone: three batteries, wiring and the pitot tube.", caption: "Inside the fiberglass nose cone: battery pack, wiring and the retractable pitot tube." }
   - { src: "/images/shockwave-altitude.webp", alt: "Flight altitude versus packet count, showing ascent, apogee near 577 m, aerobrake descent and parachute descent.", caption: "Flight altitude from the barometer telemetry: ascent, separation near apogee (577 m), aerobrake descent and parachute release at 105 m." }

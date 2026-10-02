@@ -57,9 +57,19 @@ const looking = [
       <h2>Outside of engineering</h2>
       <div class="prose">
         <p>
-          I'm a published classical composer and am writing original stage musicals, both book and score. I also row with the UAH Rowing Club.
-          I grew up in Kamuela, on the Island of Hawai'i.
+          I'm a published classical composer and am writing original stage musicals, both book and score. I grew up in Kamuela, on the Island
+          of Hawai'i, where I pitched for my high school baseball team, and I now row with the UAH Rowing Club.
         </p>
+      </div>
+      <div class="photos">
+        <figure>
+          <img src="/images/about-composing.webp" alt="Arel Urbanozo writing music at a piano." width="840" height="1100" loading="lazy" />
+          <figcaption>Composing at the piano.</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/about-baseball.webp" alt="Arel Urbanozo pitching in a high school baseball game." width="1200" height="800" loading="lazy" />
+          <figcaption>Pitching in high school, Kamuela, Hawai'i.</figcaption>
+        </figure>
       </div>
     </div>
 
@@ -91,6 +101,11 @@ const looking = [
   .tl li:first-child { padding-top: 0; }
   .when { font-weight: 700; color: var(--ink); }
   .tl p { margin: 0; color: var(--ink-2); max-width: 66ch; }
+  .photos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+  .photos figure { margin: 0; }
+  .photos img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
+  .photos figure:first-child img { object-position: 50% 30%; }
+  .photos figcaption { font-size: 14px; color: var(--muted); margin-top: 6px; }
   .side { position: sticky; top: 84px; align-self: start; padding: 16px; display: flex; flex-direction: column; gap: 18px; }
   .side img { border-radius: 6px; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 18%; width: 100%; }
   .side dl { margin: 0; display: grid; gap: 12px; }
@@ -102,5 +117,6 @@ const looking = [
   }
   @media (max-width: 560px) {
     .looking div, .tl li { grid-template-columns: 1fr; gap: 2px; }
+    .photos { grid-template-columns: 1fr; }
   }
 </style>
