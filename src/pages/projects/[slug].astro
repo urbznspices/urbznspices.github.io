@@ -50,6 +50,7 @@ const heroAlt = d.hero ? (d.heroAlt ?? d.coverAlt) : d.coverAlt;
     ) : (
       <figure class="wrap cover">
         <img src={heroImg} alt={heroAlt} />
+        {d.hero && d.heroAlt && <figcaption>{d.heroAlt}</figcaption>}
       </figure>
     )}
 
@@ -128,6 +129,7 @@ const heroAlt = d.hero ? (d.heroAlt ?? d.coverAlt) : d.coverAlt;
   .facts dd { margin: 4px 0 0; font-size: 15px; font-weight: 500; }
 
   .cover { margin-block: 32px 0; }
+  .cover figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
   .cover img { width: 100%; max-height: 560px; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface-2); }
 
   .demo { margin-top: 32px; }

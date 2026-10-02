@@ -12,6 +12,8 @@ featured: true
 tools: ["NASA SE (SP-2016-6105)", "Link budgets", "Requirements & VCRM", "ICDs", "Python", "Risk management"]
 cover: "/images/chargersat-cover.svg"
 coverAlt: "Illustration of a CubeSat in low Earth orbit with downlink beams to ground stations."
+hero: "/images/chargersat-team.webp"
+heroAlt: "Arel Urbanozo with members of the ChargerSat-2 team at an aerospace industry symposium, August 2026."
 summary:
   challenge: "Take a university 12U CubeSat through NASA Class D Phase A: a reusable bus plus an onboard AI that monitors spacecraft telemetry for faults, studied for LEO, cislunar and heliocentric missions."
   contribution: "Lead Systems Engineer for interfaces, requirements and verification across eight subsystem teams. Communications Lead for the full RF link, from link budget to licensing strategy."
