@@ -13,8 +13,9 @@ function stripDraftDemos() {
     hooks: {
       'astro:build:done': ({ dir, logger }) => {
         for (const [slug, demo] of Object.entries(DRAFT_GATED_DEMOS)) {
-          const md = readFileSync(new URL(`./src/content/projects/${slug}.md`, import.meta.url), 'utf8');
-          if (!/^draft:\s*true\s*$/m.test(md)) continue;
+          const mdUrl = new URL(`./src/content/projects/${slug}.md`, import.meta.url);
+          // A missing page (kept local-only) counts as a draft.
+          if (existsSync(mdUrl) && !/^draft:\s*true\s*$/m.test(readFileSync(mdUrl, 'utf8'))) continue;
           const target = fileURLToPath(new URL(`demos/${demo}/`, dir));
           if (existsSync(target)) {
             rmSync(target, { recursive: true, force: true });

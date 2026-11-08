@@ -28,3 +28,11 @@ demos-src/
 # RF Mission Workbench replay stays local until PI sign-off.
 # To publish: delete the next line, set draft: false in src/content/projects/rf-mission-workbench.md, commit, push.
 public/demos/rf-workbench/
+
+# Unpublished draft pages and their assets stay local until PI sign-off.
+src/content/projects/rf-mission-workbench.md
+public/images/rf-workbench.webp
+scripts/renders/rf_workbench.png
+
+# Local assistant notes
+CLAUDE.md
